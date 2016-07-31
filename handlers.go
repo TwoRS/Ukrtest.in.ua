@@ -1,5 +1,5 @@
 package main
-
+ 
 import(
     	"net/http"
     	"fmt"
@@ -10,7 +10,6 @@ import(
 	    "github.com/tdewolff/minify/html"
 	    "github.com/tdewolff/minify/js"
 )
-
 
 //IndexHandler Основной хандлер
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
