@@ -1,0 +1,19 @@
+<% define "indexPage" %>
+    <script type="text/javascript" src="static/js/library/vue.min.js"></script>
+    <script type="text/javascript" src="static/js/library/router.js"></script>
+
+    <div id="app">
+        <h1>Hello App! {{Myvalue1}}</h1>
+        <p>
+            <!-- use v-link directive for navigation. -->
+            <a v-link="{ path: '/forum' }">Go to Forum</a>
+            <a v-link="{ path: '/bar' }">Go to Bar</a>
+        </p>
+        <!-- route outlet -->
+        <router-view></router-view>
+    </div>
+    <script>
+        <% template "vue.js" %>
+        <% template "socket.js" %>
+    </script>
+    <% end %>
