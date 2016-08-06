@@ -50,9 +50,24 @@ func ApiHandler(w http.ResponseWriter, r *http.Request,Param string) {
             Authorize(w,r)
         case "ping":
             Ping(w,r)
+        case "Logout":
+            Logout(w,r)
 
         default: 
             fmt.Fprintln(w, "Метод не распознан") 
+    }
+}
+
+//
+func StartHandler(w http.ResponseWriter, r *http.Request,Handler string) {
+    w.Header().Set("Server", "Go Web Server by Rakzin Roman")
+    w.Header().Set("Content-type", "text/html; charset=utf-8")
+    switch Handler {
+        case "Logout":
+            Logout(w,r)
+
+        default: 
+            fmt.Fprintln(w, "Ошибка. Хандлер не найден") 
     }
 }
 

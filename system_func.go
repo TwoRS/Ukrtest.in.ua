@@ -1,7 +1,7 @@
 package main
 
 import(
-
+	"net/http"
 )
 
 func ParseBool(str string) (value bool) {
@@ -13,4 +13,54 @@ func ParseBool(str string) (value bool) {
     }
     return false
 }
+
+func getSession(r *http.Request) Session{
+    cookie, err := r.Cookie("SessionId")
+    if err != nil {
+      session:=Session{}
+      return session
+    }else{
+        //log.Println("Кука считана", cookie.Value)
+        session:=SessionList[cookie.Value]
+        return session
+    }
+}
+
+
+ 
+
+//-----------------------SECURE
+/*
+func (wr SecureAuthorize) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    var sess Session
+    sess=getSession(r)
+    if (sess.Authorized == true)  {                        
+      wr.Handler.ServeHTTP(w, r) 
+      return       
+    }  
+    fmt.Fprintln(w, "Вы не зарегистрированы! Сюда лезть нельзя! Доступ закрыт!")
+}
+
+func (wr SecureGold) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    var sess Session
+    sess=getSession(r)
+    if (sess.UserRole >= "1" &&   sess.Authorized== true)  {                        
+      wr.Handler.ServeHTTP(w, r) 
+      return       
+    }  
+    fmt.Fprintln(w, "Вы не Gold ! Доступ закрыт!")
+    return 
+}
+
+func (wr SecureAdmin) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+    var sess Session
+    sess=getSession(r)
+    //if (sess.UserRole >= "5" &&   sess.Authorized == true)  { 
+    if (sess.UserId==1)  {                        
+      wr.Handler.ServeHTTP(w, r) 
+      return       
+    }  
+    fmt.Fprintln(w, "Вы не администратор! Доступ закрыт!")
+    return 
+} */
 

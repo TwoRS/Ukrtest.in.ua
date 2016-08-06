@@ -3,11 +3,13 @@ package main
 import(
      "sync"
      "github.com/gorilla/websocket"
+     "time"
 )
 
 type SessionType struct{
   SessionId string
   UserId UserType
+  BeginTime string //time !!!!!!!!
 }
 
 type UserType struct {
@@ -15,9 +17,9 @@ type UserType struct {
     Login string  
     Password string       
     FIO string 
-    RegistrationDate string
-    Role string
-    RoditelId int
+    //RegistrationDate string
+    //Role string
+    //RoditelId int
 }
 
 type ClientConnType struct {
@@ -29,6 +31,47 @@ type NumberConnectionType struct {
     counters uint64
     sync.Mutex
 }
+
+type Session struct{
+  SessionId string
+  UserId int
+  UserName string
+  UserLogin string
+  UserPassword string
+  UserRole string
+  Created string
+}
+
+type Cookie struct {
+    Name       string
+    Value      string
+    Path       string
+    Domain     string
+    Expires    time.Time
+    RawExpires string
+    MaxAge   int
+    Secure   bool
+    HttpOnly bool
+    Raw      string
+    Unparsed []string // Raw text of unparsed attribute-value pairs
+}
+
+//----------------- УДАЛИТЬ ПОМЛЕ ИСПЫТАНИЯ
+type USER struct {
+    ID uint `gorm:"primary_key"`
+    Name string
+    Login string
+    Password string
+    Folders []FOLDER
+}
+
+type FOLDER struct{
+    ID uint `gorm:"primary_key"`
+    UserId uint
+    HashId uint
+    Name string
+}
+
 
 //getSession Functions
 /*func getSession(r *http.Request) Session{

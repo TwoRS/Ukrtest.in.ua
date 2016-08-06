@@ -2,10 +2,9 @@
 WebSocketConnect = function() {
     var Sock = new WebSocket("ws://localhost/websocket");
     try {
-
         Sock.onopen = function(m) {
             console.log("Соединение открыто...");
-
+            Connection.ChatRoomConnect("5555");
             /*var Send= {
               "Command":"DDOS_Start",
               "Data":{"Site":"http://localhost:5001/","Routine_numb":27}
@@ -42,42 +41,40 @@ WebSocketConnect = function() {
         Sock.onclose = function(m) {
             console.log("Соединение разорвано");
             setInterval(function() {
-                    try {
-                        $.ajax({
-                            url: '/api/ping',
-                            success: function() {
-                                window.location.reload();
-                                //WebSocketConnect(); 
-                            },
-                            error: function() {
-                                console.log("Не удалось подключиться к серверу");
-                            }
-                        }), 5000)
-                }
-            }
-            catch (exception) {
-                console.log("Не удалось подключиться к серверу");
-            }
+                try {
+                    $.ajax({
+                        url: '/api/ping',
+                        success: function() {
+                            window.location.reload();
+                            //WebSocketConnect(); 
+                        },
+                        error: function() {
+                            console.log("Не удалось подключиться к серверу");
+                        }
+                    });
+                } catch (exception) { console.log("Не удалось подключиться к серверу"); }
+            }, 5000);
         };
 
     } catch (exception) {
         console.log("Не удалось подключиться к серверу");
     }
     return {
-        DDOS_Start: function(Site, Routine_numb) {
+        Password_Change: function(AltPassword, NewPassword) {
             var Send = {
-                "Command": "DDOS_Start",
-                "Data": { "Site": Site, "Routine_numb": Routine_numb }
+                "Command": "Password_Change",
+                "Data": { "AltPassword": AltPassword, "NewPassword": NewPassword }
             };
             Sock.send(JSON.stringify(Send));
         },
-        DDOS_Stop: function() {
-            var Send = {
-                "Command": "DDOS_Stop"
+        ChatRoomConnect: function(RoomId) {
+            var SendData = {
+                "Command": "ChatRoomConnect",
+                "Data": { "RoomId": RoomId }
             };
-            Sock.send(JSON.stringify(Send));
+            Sock.send(JSON.stringify(SendData));
         }
     }
 }
-WebSocketConnect();
+var Connection = WebSocketConnect();
 <% end %>

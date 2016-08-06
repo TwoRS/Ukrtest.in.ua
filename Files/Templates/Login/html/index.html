@@ -42,7 +42,8 @@
                     "login": $("#login").val(),
                     "password": $("#password").val()
                 }).success(function(data) {
-                    if (data == 1) {
+                    if (data > "") {
+                        document.cookie = "SessionId="+data;
                         window.location.replace("/");
                     } else {
                         alert('Не подходит!');
