@@ -1,53 +1,40 @@
 package main
 
 import(
-    	//"github.com/jinzhu/gorm/dialects/postgres"
-      "github.com/jinzhu/gorm"
+     //"github.com/jinzhu/gorm/dialects/postgres"
+      //"github.com/jinzhu/gorm"
       _ "github.com/lib/pq"
+      "database/sql"
       "log"
+      "fmt"
 )
 
-//DbConnect Подключение к базе
-func DbConnect() *gorm.DB{
-    db, err := gorm.Open("postgres", "user=postgres password=RomanRakzin dbname=postgres sslmode=disable")  
-    if err != nil {
-       log.Println("Ошибка подключения к базе данных") 
-    }
-    db.LogMode(false)
-    err = db.DB().Ping()
-    if err != nil {log.Println("База данных отсутствует или нет доступа") }
-    defer db.Close()
-    return db
-}
+const (
+    DB_HOST     = "localhost:5436"
+    DB_USER     = "postgres"
+    DB_PASSWORD = "Roman"
+    DB_NAME     = "postgres"
+)
+
 
 //DB_Migration Миграция БД
 func DB_Migration() {
-    db:=DbConnect()
+    dbinfo := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable",
+        DB_HOST,DB_USER, DB_PASSWORD, DB_NAME)
+    db, err := sql.Open("postgres", dbinfo)
+    checkErr(err)
+
+    var lastInsertId int
+    err = db.QueryRow("INSERT INTO userinfo(username,departname,created) VALUES($1,$2,$3) returning uid;", "astaxie", "研发部门", "2012-12-09").Scan(&lastInsertId)
+    checkErr(err)
+    fmt.Println("last inserted id =", lastInsertId)
+
     defer db.Close()
-    //db.AutoMigrate(USER{},FOLDER{}/*,ZABOLEVANIE{},SYMPTOM{},ISSLEDOVANIE{},ISSLEDOVANIE{}*/)
-    //db.Model(&FOLDER{}).AddForeignKey("user_id", "users (id)", "CASCADE", "CASCADE")  
 }
 
 
-
-
-//  defer db.Close()
- //   db.LogMode(true)
- //   db.AutoMigrate(X{}, Y{})
-  //  db.Model(&Y{}).AddForeignKey("x_id", "xes (id)", "CASCADE", "CASCADE")
-
-
-type X struct {
-    gorm.Model
+func checkErr(err error) {
+    if err != nil {
+        log.Println(err)
+    }
 }
- 
-//Y belongs_to X
-type Y struct {
-    gorm.Model
-    XID uint
-}
-
-
-
-
-

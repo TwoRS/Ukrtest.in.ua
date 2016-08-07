@@ -9,6 +9,10 @@ var Chat = Vue.extend({
     template: '<p>This is Chat!</p>'
 })
 
+var About = Vue.extend({
+    template: '<p>This is About!</p>'
+})
+
 
 var App = Vue.extend({
     el: '#app',
@@ -27,8 +31,11 @@ router.map({
     '/forum': {
         component: Forum
     },
+    '/about': {
+        component: About
+    },
     '/chat': {
-        component: Chat
+        component: About
     }
 })
 

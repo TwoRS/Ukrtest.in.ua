@@ -15,6 +15,12 @@ import(
 
 //MainHandler Хандлер для загрузки шаблонов
 func MainHandler(w http.ResponseWriter, r *http.Request,Path string) {
+    var sess Session
+    sess=getSession(r)  
+    if (sess.SessionId>""){
+    //    MainHandler(w, r,"Login")
+    //    return
+    }
     w.Header().Set("Server", "Go Web Server by Rakzin Roman")
     w.Header().Set("Content-type", "text/html; charset=utf-8")
     templ  := template.New("templ")
@@ -58,16 +64,31 @@ func ApiHandler(w http.ResponseWriter, r *http.Request,Param string) {
     }
 }
 
-//
+//StartHandler Хандлер роутинга основных маршрутов 
 func StartHandler(w http.ResponseWriter, r *http.Request,Handler string) {
     w.Header().Set("Server", "Go Web Server by Rakzin Roman")
     w.Header().Set("Content-type", "text/html; charset=utf-8")
-    switch Handler {
+    switch Handler {      
         case "Logout":
             Logout(w,r)
+        case "About":
+            GoAuth(w,r,"About")
+        case "Main":
+            GoAuth(w,r,"Main")
 
         default: 
             fmt.Fprintln(w, "Ошибка. Хандлер не найден") 
     }
 }
+
+//GoAuth Авторизация
+func GoAuth(w http.ResponseWriter, r *http.Request, Path string) {
+    var sess Session
+    sess=getSession(r)  
+    if (sess.SessionId>""){
+        MainHandler(w, r,Path)
+    }else{
+        MainHandler(w, r,"AboutNA")
+    }
+} 
 

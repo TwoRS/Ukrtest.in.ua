@@ -30,17 +30,20 @@ func getSession(r *http.Request) Session{
  
 
 //-----------------------SECURE
-/*
+
 func (wr SecureAuthorize) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     var sess Session
     sess=getSession(r)
-    if (sess.Authorized == true)  {                        
+    if (sess.SessionId>""){                        
       wr.Handler.ServeHTTP(w, r) 
       return       
+    }else{
+      MainHandler(w, r,"About")  
     }  
-    fmt.Fprintln(w, "Вы не зарегистрированы! Сюда лезть нельзя! Доступ закрыт!")
+    //fmt.Fprintln(w, "Вы не зарегистрированы! Сюда лезть нельзя! Доступ закрыт!")
 }
 
+/*
 func (wr SecureGold) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     var sess Session
     sess=getSession(r)

@@ -4,6 +4,7 @@ import(
      "sync"
      "github.com/gorilla/websocket"
      "time"
+     "net/http"
 )
 
 type SessionType struct{
@@ -55,6 +56,10 @@ type Cookie struct {
     Raw      string
     Unparsed []string // Raw text of unparsed attribute-value pairs
 }
+
+type SecureAuthorize struct {
+    http.Handler
+} 
 
 //----------------- УДАЛИТЬ ПОМЛЕ ИСПЫТАНИЯ
 type USER struct {

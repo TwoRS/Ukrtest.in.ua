@@ -15,11 +15,12 @@ func RouterStart() {
     static := http.StripPrefix("/static/", http.FileServer(http.Dir("./Files/Static/")))
     router.PathPrefix("/static/").Handler(static).Methods("GET")
    
-    router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {MainHandler(w, r,"Main")}).Methods("GET")
+    router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {StartHandler(w, r,"Main")}).Methods("GET")
     router.HandleFunc("/forum", func(w http.ResponseWriter, r *http.Request) {MainHandler(w, r,"Main")}).Methods("GET")
-    router.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {MainHandler(w, r,"Login")}).Methods("GET")
-    router.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {StartHandler(w, r,"Logout")}).Methods("GET")    
-    router.HandleFunc("/api/{method}", func(w http.ResponseWriter, r *http.Request) {ApiHandler(w, r,"Group1")})
+    router.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {MainHandler(w, r,"Login")}).Methods("GET")   
+    router.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {StartHandler(w, r,"Logout")}).Methods("GET")  
+    router.HandleFunc("/about", func(w http.ResponseWriter, r *http.Request) {StartHandler(w, r,"Main")}).Methods("GET")       
+    router.HandleFunc("/api/{method}", func(w http.ResponseWriter, r *http.Request) {ApiHandler(w, r,"params")})
     router.HandleFunc("/websocket", ClientSockServer) 
 
     log.Println("Server started") 
